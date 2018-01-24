@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Mvvm;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace DynamicValidation
 {
-    public class MyBindableBase : INotifyPropertyChanged, INotifyDataErrorInfo
+    public class MyBindableBase : BindableBase, INotifyPropertyChanged, INotifyDataErrorInfo
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+       
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
@@ -27,22 +28,7 @@ namespace DynamicValidation
      
         public Dictionary<string, List<string>> Hatalar => propErrors;
 
-        public bool SetProperty<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
-        {
-            // field null gelebilir o yüzden field.equal() kullanamayız
-            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-
-            field = value;
-            OnPropertyChanged(propertyName);
-            OnPropertyChanged(nameof(IsChanged));
-
-            return true;
-        }
-
-        public void OnPropertyChanged([CallerMemberName]string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+  
 
         public IEnumerable GetErrors(string propertyName)
         {
@@ -65,6 +51,8 @@ namespace DynamicValidation
 
             var b = Validator.TryValidateObject(this, vcontext, vresults, true);
 
+          
+
             if (vresults.Any())
             {
                 var propertyNames = vresults.SelectMany(c => c.MemberNames).Distinct().ToList();
@@ -78,6 +66,9 @@ namespace DynamicValidation
                     ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(p_item));
                 }
             }
+
+
+
 
             return b;
         }

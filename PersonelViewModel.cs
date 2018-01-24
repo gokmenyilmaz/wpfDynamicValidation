@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using System.ComponentModel.DataAnnotations;
 
 namespace DynamicValidation
 {
@@ -15,7 +16,8 @@ namespace DynamicValidation
 
         public void Kaydet()
         {
-           var isValid= Kullanici.IsValidModel();
+            var c = new ValidationContext(Kullanici);
+            Kullanici.Validate(c);
 
         }
     }

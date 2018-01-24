@@ -49,7 +49,7 @@
 
                 <DockPanel>
                     <TextBlock Text="Kilo" />
-                    <TextBox TextWrapping="Wrap" Text="{Binding Kilo,Mode=TwoWay,ValidatesOnNotifyDataErrors=True}" />
+                    <TextBox TextWrapping="Wrap" Text="{Binding Kilo,Mode=TwoWay,ValidatesOnNotifyDataErrors=True,ValidatesOnDataErrors=True}" />
                 </DockPanel>
 
                 <DockPanel>
